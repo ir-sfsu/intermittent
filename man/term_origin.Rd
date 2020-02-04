@@ -9,9 +9,6 @@ term_origin(x)
 \arguments{
 \item{x}{a term object}
 }
-\value{
-
-}
 \description{
 Get term origin
 }

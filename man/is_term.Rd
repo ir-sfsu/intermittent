@@ -9,9 +9,6 @@ is_term(x)
 \arguments{
 \item{x}{An object}
 }
-\value{
-
-}
 \description{
 Test if an object is of class 'term'
 }
