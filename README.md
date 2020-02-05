@@ -60,6 +60,11 @@ x - 1 # To Fall 2011
 x - 3 # To Fall 2010
 #> <term[1]>
 #> [1] 2107
+
+### Comparison
+y <- term(2133, "cs")
+x < y 
+#> Error: Can't cast `x` <term> to `to` <term>.
 ```
 
 Get the academic or calendar year for any term object.

@@ -43,7 +43,7 @@ attributes(x)
 
 R 'understands' term 2123 to be equivilent of 'Spring 2012'.
 
-```{r}
+```{r error=TRUE}
 ### Increment the term
 x + 1 # To Summer 2012
 x + 2 # To Fall 2012
@@ -51,6 +51,10 @@ x + 5 # To Fall 2014
 
 x - 1 # To Fall 2011
 x - 3 # To Fall 2010
+
+### Comparison
+y <- term(2133, "cs")
+x < y 
 ```
 
 Get the academic or calendar year for any term object.
