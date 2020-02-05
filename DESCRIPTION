@@ -1,5 +1,5 @@
-Package: termtools
-Title: An S3 class for various terms
+Package: intermittent
+Title: An S3 class for terms
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "David",
@@ -13,4 +13,5 @@ LazyData: true
 RoxygenNote: 7.0.2
 Imports: 
     vctrs,
-    purrr
+    purrr,
+    methods

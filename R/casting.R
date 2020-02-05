@@ -15,11 +15,21 @@ vec_cast.term.default <- function(x, to, ...) vctrs::vec_default_cast(x, to)
 #' @importFrom vctrs vec_cast.double
 #' @method vec_cast.term double
 #' @export
-vec_cast.term.double <- function(x, to, ...) term(x)
+vec_cast.term.double <- function(x, to, origin = c("sims", "cs"), ...) {
+  origin <- match.arg(origin)
+  term(x, origin)
+}
+
+#' @method vec_cast.term double
+#' @export
+vec_cast.term.term <- function(x, to, ...) x
 
 #' @method vec_cast.term character
 #' @export
-vec_cast.term.character <- function(x, to, ...) term(x)
+vec_cast.term.character <- function(x, to, origin = c("sims", "cs"), ...) {
+  origin <- match.arg(origin)
+  term(x, origin)
+}
 
 #' @method vec_cast.double term
 #' @export

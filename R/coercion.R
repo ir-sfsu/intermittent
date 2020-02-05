@@ -17,12 +17,12 @@ vec_ptype2.term.default <- function(x, y, ..., x_arg = "x", y_arg = "y") {
 
 #' @method vec_ptype2.term term
 #' @export
-vec_ptype2.term.term <- function(x, y, ...) term()
+vec_ptype2.term.term <- function(x, y, ...) x
 
 #' @method vec_ptype2.term double
 #' @export
-vec_ptype2.term.double <- function(x, y, ...) term()
+vec_ptype2.term.double <- function(x, y, ...) x
 
 #' @method vec_ptype2.double term
 #' @export
-vec_ptype2.double.term <- function(x, y, ...) term()
+vec_ptype2.double.term <- function(x, y, ...) x

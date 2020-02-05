@@ -8,10 +8,10 @@
 #' Can be cast from either character or double
 #' @keywords internal
 
-new_term <- function(x, origin = c("sims", "cs")) {
-  stopifnot(vctrs::vec_is(x, character()) | vctrs::vec_is(x, double()))
+new_term <- function(x, origin = "sims") {
+  # stopifnot(vctrs::vec_is(x, character()) | vctrs::vec_is(x, double()) | vctrs::vec_is(x, term()))
   x_len <- nchar(x)
-  origin <- match.arg(origin)
+  # origin <- match.arg(origin)
   if (origin == "cs" & all(x_len != 4)) {
     stop("Terms w/'cs' origin are 4 digits, e.g. '2123'")
   }
@@ -32,6 +32,7 @@ new_term <- function(x, origin = c("sims", "cs")) {
 #' @param origin either 'cs' or 'sims'
 #' @export
 term <- function(x, origin = c("sims", "cs")) {
+  origin <- match.arg(origin)
   new_term(x, origin)
 }
 
@@ -44,7 +45,6 @@ setOldClass(c("term", "vctrs_vctr"))
 #'
 #' @param x a term object
 #'
-#' @return
 #' @export
 term_origin <- function(x) {
   stopifnot(is_term(x))
@@ -55,7 +55,6 @@ term_origin <- function(x) {
 #'
 #' @param x An object
 #'
-#' @return
 #' @export
 is_term <- function(x) {inherits(x, "term")}
 
@@ -67,8 +66,9 @@ is_term <- function(x) {inherits(x, "term")}
 #'
 #' @return An object of class 'term'
 #' @export
-as_term <- function(x, origin) {
-  vctrs::vec_cast(x, new_term(x, origin = origin))
+as_term <- function(x, origin = c("sims", "cs")) {
+  origin <- match.arg(origin)
+  new_term(x, origin = origin)
 }
 
 #' @export

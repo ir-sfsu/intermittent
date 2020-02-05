@@ -1,9 +1,9 @@
-conv_term <- function(x) {
+conv_term <- function(x, origin) {
   # origin <- term_origin(x)
   nc <- nchar(x)
-  stopifnot(nc %in% 4:5)
+  # stopifnot(nc %in% 4:5)
   bits <- strsplit(as.character(x), "")[[1]]
-  if (nc == 4) {
+  if (origin == "cs") {
     bits[4] <- switch(bits[4],
                       "3" = "2",
                       "5" = "3",
@@ -17,6 +17,12 @@ conv_term <- function(x) {
   paste0("2", paste0(bits[3:5], collapse = ""))
 }
 
+#' Get the academic year of a term
+#'
+#' @param x An object of class 'term'
+#'
+#' @return Character
+#' @export
 acad_year <- function(x) {
   stopifnot(is_term(x))
   origin <- term_origin(x)
@@ -56,6 +62,12 @@ acad_year <- function(x) {
   ay
 }
 
+#' Get the calendar year of a term
+#'
+#' @param x An object of class 'term'
+#'
+#' @return Numeric
+#' @export
 cal_year <- function(x) {
   stopifnot(is_term(x))
   origin <- term_origin(x)

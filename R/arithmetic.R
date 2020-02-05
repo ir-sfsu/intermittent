@@ -1,6 +1,16 @@
+#' Math stuff for term objects
+#'
+#' @importFrom stats median
+#' @param x An object of class 'term'
+#' @param ... Additional args passed to various functions
+#' @param na.rm Logical. Should missing values be removed?
+#'
+#' @name mathematics
+NULL
+
 #' @rdname mathematics
 #' @export
-median.term <- function(x) {
+median.term <- function(x, ...) {
   to <- seq(min(x), max(x))
   lt <- length(to)
   to[ceiling(lt/2)]
@@ -49,6 +59,7 @@ vec_arith.term.numeric <- function(op, x, y, ...) {
   switch(
     op,
     "+" = term_plus(x, y),
+    "-" = term_minus(x, y),
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
@@ -65,26 +76,42 @@ vec_arith.numeric.term <- function(op, x, y, ...) {
   )
 }
 
-term_plus <- function(x, y, terms = getOption("termtools.use_terms")) {
+term_plus <- function(x, y, terms = getOption("intermittent.use_terms")) {
+  increment_dbl(x, y, "+", terms)
+}
 
+term_minus <- function(x, y, terms = getOption("intermittent.use_terms")) {
+  increment_dbl(x, y, "-", terms)
+}
+
+increment_dbl <- function(x, y, op, terms) {
   stopifnot(is_term(x))
-  # stopifnot(rlang::is_double(y))
   origin <- term_origin(x)
   x_dbl <- vctrs::vec_cast(x, double())
-  if (origin == "cs") x_dbl <- conv_term(x_dbl)
+  if (origin == "cs") x_dbl <- conv_term(x_dbl, origin)
   term_ind <- substr(x_dbl, 5, 5)
-
   sui <- ifelse(terms == "all", 1, NA)
   spi <- ifelse(is.na(sui), 2, 1)
-  add_inc_rep <- switch(term_ind,
-                        "2" = c(sui, spi, 8),
-                        "3" = c(1, 8, 1),
-                        "4" = c(8, sui, spi))
+  if (op == "-") {
+    add_inc_rep <- switch(term_ind,
+                          "2" = c(8, sui, spi),
+                          "3" = c(1, 8, 1),
+                          "4" = c(sui, spi, 8))
+  } else {
+    add_inc_rep <- switch(term_ind,
+                          "2" = c(sui, spi, 8),
+                          "3" = c(1, 8, 1),
+                          "4" = c(8, sui, spi))
+  }
 
   add_inc_rep <- add_inc_rep[!is.na(add_inc_rep)]
   repX <- ceiling(y / ifelse(terms == "fasp", 2, 3))
   inc_seq <- rep(add_inc_rep, repX)
-  out <- as.numeric(x_dbl) + sum(inc_seq[1:y])
-  if (origin == "cs") out <- conv_term(out)
+  if (op == "-") {
+    out <- as.numeric(x_dbl) - sum(inc_seq[1:y])
+  } else {
+    out <- as.numeric(x_dbl) + sum(inc_seq[1:y])
+  }
+  if (origin == "cs") out <- conv_term(out, "sims")
   term(out, origin = origin)
 }

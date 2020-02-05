@@ -1,9 +1,9 @@
 .onLoad <- function(libname, pkgname) {
   op <- options()
-  op.termtools <- list(
-    termtools.use_terms = "fasp" # fall and spring terms
+  op.intermittent <- list(
+    intermittent.use_terms = "fasp" # fall and spring terms
   )
-  toset <- !(names(op.termtools) %in% names(op))
-  if(any(toset)) options(op.termtools[toset])
+  toset <- !(names(op.intermittent) %in% names(op))
+  if(any(toset)) options(op.intermittent[toset])
   invisible()
 }

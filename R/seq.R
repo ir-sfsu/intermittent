@@ -1,5 +1,5 @@
 #' @export
-seq.term <- function(from, to, include = c("fasp", "all")) {
+seq.term <- function(from, to, include = c("fasp", "all"), ...) {
   origin <- term_origin(from)
   include <- match.arg(include)
   out <- seq_terms(from, to, include, origin = origin)
@@ -9,8 +9,8 @@ seq.term <- function(from, to, include = c("fasp", "all")) {
 seq_terms <- function(from, to, include, origin) {
   cs_orig <- FALSE
   if (origin == "cs") {
-    from <- conv_term(from)
-    to <- conv_term(to)
+    from <- conv_term(from, origin)
+    to <- conv_term(to, origin)
     cs_orig <- TRUE
   }
   start_year <- as.numeric(substr(from, 1, 4))
@@ -33,6 +33,6 @@ seq_terms <- function(from, to, include, origin) {
       out <- out[-1]
     }
   }
-  if (cs_orig) out <- purrr::map_chr(out, conv_term)
+  if (cs_orig) out <- purrr::map_chr(out, conv_term, "sims")
   out
 }
