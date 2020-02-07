@@ -10,7 +10,9 @@ vec_cast.term <- function(x, to, ...) UseMethod("vec_cast.term")
 
 #' @method vec_cast.term default
 #' @export
-vec_cast.term.default <- function(x, to, ...) vctrs::vec_default_cast(x, to)
+vec_cast.term.default <- function(x, to, ...) {
+  vctrs::vec_default_cast(x, to)
+}
 
 #' @importFrom vctrs vec_cast.double
 #' @method vec_cast.term double
@@ -20,9 +22,11 @@ vec_cast.term.double <- function(x, to, origin = c("sims", "cs"), ...) {
   term(x, origin)
 }
 
-#' @method vec_cast.term double
+#' @method vec_cast.term term
 #' @export
-vec_cast.term.term <- function(x, to, ...) x
+vec_cast.term.term <- function(x, to, ...) {
+  x
+}
 
 #' @method vec_cast.term character
 #' @export
@@ -33,7 +37,7 @@ vec_cast.term.character <- function(x, to, origin = c("sims", "cs"), ...) {
 
 #' @method vec_cast.double term
 #' @export
-vec_cast.double.term <- function(x, to, ...) vctrs::vec_data(x)
+vec_cast.double.term <- function(x, to, ...) as.numeric(vctrs::vec_data(x))
 
 #' @importFrom vctrs vec_cast.character
 #' @method vec_cast.character term

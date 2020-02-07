@@ -34,8 +34,6 @@ max.term <- function(x, na.rm = FALSE, ...) {
   term(out, origin = origin)
 }
 
-
-
 #' @rdname vctrs-compat
 #' @importFrom vctrs vec_arith
 #' @method vec_arith term
@@ -76,14 +74,47 @@ vec_arith.numeric.term <- function(op, x, y, ...) {
   )
 }
 
+#' @rdname vctrs-compat
+#' @method vec_arith.term term
+#' @export
+vec_arith.term.term <- function(op, x, y, ...) {
+  switch(
+    op,
+    # "+" = term_plus(x, y),
+    "-" = term_minus_term(x, y),
+    vctrs::stop_incompatible_op(op, x, y)
+  )
+}
+
+term_minus_term <- function(x, y, terms = getOption("intermittent.use_terms")) {
+  origins_check(x, y)
+  stopifnot(x > y)
+  length(seq(x, y, terms))
+}
+
+#' @export
 term_plus <- function(x, y, terms = getOption("intermittent.use_terms")) {
-  increment_dbl(x, y, "+", terms)
+  origin <- term_origin(x)
+  out <- sapply(x, function(x) {
+    as.numeric(increment_dbl(x, y, "+", terms))
+  })
+  names(out) <- NULL
+  term(out, origin = origin)
+  # increment_dbl(x, y, "+", terms)
 }
 
+#' @export
 term_minus <- function(x, y, terms = getOption("intermittent.use_terms")) {
-  increment_dbl(x, y, "-", terms)
+  origin <- term_origin(x)
+  out <- sapply(x, function(x) {
+    as.numeric(increment_dbl(x, y, "-", terms))
+  })
+  names(out) <- NULL
+  term(out, origin = origin)
+  # increment_dbl(x, y, "-", terms)
 }
 
+#' @export
 increment_dbl <- function(x, y, op, terms) {
   stopifnot(is_term(x))
   origin <- term_origin(x)

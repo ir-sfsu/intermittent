@@ -5,7 +5,7 @@
 \title{Internal constructor to create term type
 Can be cast from either character or double}
 \usage{
-new_term(x, origin = c("sims", "cs"))
+new_term(x = double(), origin = c("sims", "cs"))
 }
 \description{
 Internal constructor to create term type

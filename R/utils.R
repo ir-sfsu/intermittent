@@ -1,3 +1,4 @@
+#' @export
 conv_term <- function(x, origin) {
   # origin <- term_origin(x)
   nc <- nchar(x)
@@ -78,4 +79,38 @@ cal_year <- function(x) {
     out <- lapply(bits, function(x) paste0(x[1], 0, x[2], x[3]))
   }
   as.numeric(as.numeric(out))
+}
+
+#' Label a term object
+#'
+#' @param x An object of class 'term'
+#'
+#' @return Character, e.g. "Fall 2018"
+#' @export
+#'
+#' @examples
+#' label_term(term(20194))
+label_term <- function(x) {
+  if (length(x) > 1) {
+    out <- sapply(x, format_term)
+  } else {
+    out <- format_term(x)
+  }
+  names(out) <- NULL
+  out
+}
+
+format_term <- function(x) {
+  stopifnot(is_term(x))
+  origin <- term_origin(x)
+  if (origin == "cs") x <- conv_term(x, "cs")
+  char_term <- as.character(x)
+  term <- substr(char_term, 5, 5)
+  year <- substr(char_term, 1, 4)
+  term <- switch(term,
+                 # `1` = "Winter",
+                 `2` = "Spring",
+                 `3` = "Summer",
+                 `4` = "Fall")
+  paste(term, year)
 }

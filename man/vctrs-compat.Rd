@@ -6,6 +6,7 @@
 \alias{vec_arith.term.default}
 \alias{vec_arith.term.numeric}
 \alias{vec_arith.numeric.term}
+\alias{vec_arith.term.term}
 \alias{vec_cast.term}
 \alias{vec_ptype2.term}
 \alias{vec_proxy_compare.term}
@@ -20,6 +21,8 @@
 \method{vec_arith.term}{numeric}(op, x, y, ...)
 
 \method{vec_arith.numeric}{term}(op, x, y, ...)
+
+\method{vec_arith.term}{term}(op, x, y, ...)
 
 \method{vec_cast}{term}(x, to, ...)
 

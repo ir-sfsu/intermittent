@@ -21,6 +21,17 @@ knitr::opts_chunk$set(
 
 The goal of intermittent is to assist IR analysts with 'term' data formats originating in various student information systems (SIS). Currently, two origins are supported: SIMS and Campus Solutions.
 
+intermittent is built [with vctrs, a package that makes it easy to create S3 vectors.](https://github.com/r-lib/vctrs)
+
+```{r echo=FALSE}
+knitr::kable(data.frame(
+  Sims = c(20124, 20132, 20133, 20134),
+  CS = c(2127, 2133, 2135, 2137),
+  Label = c("Fall 2012", "Spring 2013", "Summer 2013", "Fall 2013")
+))
+```
+
+
 ## Installation
 
 You can install intermittent from GitHub with:
@@ -35,18 +46,19 @@ Create a term object with `term` and indicate an origin.
 
 ```{r example}
 library(intermittent)
-getOption("intermittent.use_terms")
 x <- term(2123, origin = "cs")
 x
 attributes(x)
 ```
 
+## Arithmetic
+
 R 'understands' term 2123 to be equivilent of 'Spring 2012'.
 
 ```{r error=TRUE}
 ### Increment the term
-x + 1 # To Summer 2012
-x + 2 # To Fall 2012
+x + 1 # To Fall 2012
+x + 2 # To Spring 2013
 x + 5 # To Fall 2014
 
 x - 1 # To Fall 2011
@@ -57,9 +69,21 @@ y <- term(2133, "cs")
 x < y 
 ```
 
-Get the academic or calendar year for any term object.
+
+Subtract a term from a term to count the terms in-between. This is useful when counting the number of terms to graduation.
 
 ```{r}
+grad_term <- term(20182, "sims") # Spring 2018
+matric_term <- term(20144, "sims") # Fall 2014
+grad_term - matric_term 
+```
+
+## Helpers
+
+Get the label, academic year, or calendar year for any term object.
+
+```{r}
+label_term(x)
 acad_year(x)
 cal_year(x)
 ```
@@ -78,20 +102,34 @@ median(sims_terms) # Retrieve the 'middle' term
 
 Use with packages like `dplyr`.
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 library(dplyr)
 library(tibble)
 
 tibble(term = c(2123, 2127, 2133, 2137)) %>% 
   mutate(
     term = as_term(term, "cs"),
+    term_label = label_term(term),
+    next_term = term + 1,
     year = cal_year(term),
-    ay = acad_year(term)
-  ) %>% 
-  rowwise() %>% 
-  mutate(next_term = as.numeric(term + 1)) %>% # rowwise() and as.numeric() to avoid annoying warnings
-  ungroup() %>% 
-  mutate(next_term = as_term(next_term, "cs"))
+    academic_year = acad_year(term)
+  )
 ```
 
+## Package Options - Include Summer Terms?
 
+You may have noticed that the default sequencing, addition, and subtraction do not account for Summer terms. To change this behavior, change the package options:
+
+```{r}
+getOption("intermittent.use_terms")
+seq(term(2127, "cs"), 2173)
+
+options(intermittent.use_terms = "all")
+seq(term(2127, "cs"), 2173)
+```
+
+## Future work
+
+* Other SIS origins?
+* Other methods?
+* Tests

@@ -17,7 +17,14 @@ vec_ptype2.term.default <- function(x, y, ..., x_arg = "x", y_arg = "y") {
 
 #' @method vec_ptype2.term term
 #' @export
-vec_ptype2.term.term <- function(x, y, ...) x
+vec_ptype2.term.term <- function(x, y, ...) {
+  # origin <- term_origin(y)
+  # if (is_term(y)) {
+  #   y <- vec_cast(y, double())
+  # }
+  # new_term(y, origin = origin)
+  # new_term(origin = term_origin(x))
+}
 
 #' @method vec_ptype2.term double
 #' @export

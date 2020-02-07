@@ -7,16 +7,21 @@
 #' Internal constructor to create term type
 #' Can be cast from either character or double
 #' @keywords internal
+#' @export
 
-new_term <- function(x, origin = "sims") {
+new_term <- function(x = double(), origin = c("sims", "cs")) {
   # stopifnot(vctrs::vec_is(x, character()) | vctrs::vec_is(x, double()) | vctrs::vec_is(x, term()))
   x_len <- nchar(x)
-  # origin <- match.arg(origin)
-  if (origin == "cs" & all(x_len != 4)) {
-    stop("Terms w/'cs' origin are 4 digits, e.g. '2123'")
+  origin <- match.arg(origin)
+  if (origin == "cs") {
+    if (all(x_len != 4)) {
+      stop("Terms w/'cs' origin are 4 digits, e.g. '2123'")
+    }
   }
-  if (origin == "sims" & all(x_len != 5)) {
-    stop("Terms w/'sims' origin are 5 digits, e.g. '20144'")
+  if (origin == "sims") {
+    if (all(x_len != 5)) {
+      stop("Terms w/'sims' origin are 5 digits, e.g. '20144'")
+    }
   }
   vctrs::new_vctr(x, origin = origin, class = "term")
   # attr(out, "acad_year") <- acad_year(out)
@@ -79,6 +84,7 @@ format.term <- function(x, ...) {
   out
 }
 
+#' @export
 vec_ptype_abbr.term <- function(x, ...) {
   origin <- term_origin(x)
   paste0("term (", origin, ")")

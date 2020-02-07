@@ -4,7 +4,7 @@
 \alias{as_term}
 \title{Cast an object to term}
 \usage{
-as_term(x, origin)
+as_term(x, origin = c("sims", "cs"))
 }
 \arguments{
 \item{x}{An object}

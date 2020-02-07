@@ -1,11 +1,11 @@
 #' @export
-seq.term <- function(from, to, include = c("fasp", "all"), ...) {
+seq.term <- function(from, to, include = getOption("intermittent.use_terms"), ...) {
   origin <- term_origin(from)
-  include <- match.arg(include)
   out <- seq_terms(from, to, include, origin = origin)
   new_term(out, origin = origin)
 }
 
+#' @export
 seq_terms <- function(from, to, include, origin) {
   cs_orig <- FALSE
   if (origin == "cs") {
