@@ -130,18 +130,21 @@ library(tibble)
 tibble(term = c(2123, 2127, 2133, 2137)) %>% 
   mutate(
     term = as_term(term, "cs"),
+    grad_term = as_term(2163, "cs"),
+    terms_to_degree = grad_term - term,
     term_label = label_term(term),
-    next_term = term + 1,
+    second_term = term + 1,
     year = cal_year(term),
     academic_year = acad_year(term)
   )
-#> # A tibble: 4 x 5
-#>          term term_label    next_term  year academic_year
-#>   <term (cs)> <chr>       <term (cs)> <dbl> <chr>        
-#> 1        2123 Spring 2012        2127  2012 2011-12      
-#> 2        2127 Fall 2012          2133  2012 2012-13      
-#> 3        2133 Spring 2013        2137  2013 2012-13      
-#> 4        2137 Fall 2013          2143  2013 2013-14
+#> # A tibble: 4 x 7
+#>    term grad_term terms_to_degree term_label second_term  year
+#>   <ter> <term (c>           <int> <chr>      <term (cs)> <dbl>
+#> 1  2123      2163               9 Spring 20…        2127  2012
+#> 2  2127      2163               8 Fall 2012         2133  2012
+#> 3  2133      2163               7 Spring 20…        2137  2013
+#> 4  2137      2163               6 Fall 2013         2143  2013
+#> # … with 1 more variable: academic_year <chr>
 ```
 
 ## Package Options - Include Summer Terms?

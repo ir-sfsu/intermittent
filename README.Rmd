@@ -109,8 +109,10 @@ library(tibble)
 tibble(term = c(2123, 2127, 2133, 2137)) %>% 
   mutate(
     term = as_term(term, "cs"),
+    grad_term = as_term(2163, "cs"),
+    terms_to_degree = grad_term - term,
     term_label = label_term(term),
-    next_term = term + 1,
+    second_term = term + 1,
     year = cal_year(term),
     academic_year = acad_year(term)
   )

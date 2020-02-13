@@ -88,11 +88,18 @@ vec_arith.term.term <- function(op, x, y, ...) {
 
 term_minus_term <- function(x, y, terms = getOption("intermittent.use_terms")) {
   origins_check(x, y)
-  stopifnot(x > y)
-  length(seq(x, y, terms))
+  if (length(x) > 1) {
+    out <- NULL
+    for (i in seq_along(x)) {
+      stopifnot(x > y)
+      out[i] <- length(seq(y[i], x[i], terms))
+    }
+  } else {
+    out <- length(seq(x, y, terms))
+  }
+  out
 }
 
-#' @export
 term_plus <- function(x, y, terms = getOption("intermittent.use_terms")) {
   origin <- term_origin(x)
   out <- sapply(x, function(x) {
@@ -103,7 +110,6 @@ term_plus <- function(x, y, terms = getOption("intermittent.use_terms")) {
   # increment_dbl(x, y, "+", terms)
 }
 
-#' @export
 term_minus <- function(x, y, terms = getOption("intermittent.use_terms")) {
   origin <- term_origin(x)
   out <- sapply(x, function(x) {
@@ -114,7 +120,6 @@ term_minus <- function(x, y, terms = getOption("intermittent.use_terms")) {
   # increment_dbl(x, y, "-", terms)
 }
 
-#' @export
 increment_dbl <- function(x, y, op, terms) {
   stopifnot(is_term(x))
   origin <- term_origin(x)
