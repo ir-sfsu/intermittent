@@ -91,7 +91,7 @@ term_minus_term <- function(x, y, terms = getOption("intermittent.use_terms")) {
   if (length(x) > 1) {
     out <- NULL
     for (i in seq_along(x)) {
-      stopifnot(x > y)
+      # stopifnot(x > y)
       out[i] <- length(seq(y[i], x[i], terms))
     }
   } else {
