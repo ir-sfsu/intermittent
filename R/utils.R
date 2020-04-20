@@ -114,3 +114,29 @@ format_term <- function(x) {
                  `4` = "Fall")
   paste(term, year)
 }
+
+# current_term <- function(origin = "cs") {
+#   ops <- getOption("intermittent.use_terms")
+#   bits <- as.numeric(strsplit(as.character(Sys.Date()), "-")[[1]][1:2])
+#   y <- bits[1]
+#   m <- bits[2]
+#   ## TODO ##
+#   ## Maybe
+# }
+
+#' Get the number of terms in between two terms
+#'
+#' @param x a term object
+#' @param y a term object
+#'
+#' @return integer
+#' @export
+#'
+#' @examples
+#' x <- term(20104)
+#' y <- term(20144)
+#' term_duration(x, y)
+#' term_duration(y, x)
+term_duration <- function(x, y) {
+  ifelse(x > y, x - y, y - x)
+}
