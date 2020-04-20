@@ -5,6 +5,7 @@
 \alias{median.term}
 \alias{min.term}
 \alias{max.term}
+\alias{range.term}
 \title{Math stuff for term objects}
 \usage{
 \method{median}{term}(x, ...)
@@ -12,6 +13,8 @@
 \method{min}{term}(x, na.rm = FALSE, ...)
 
 \method{max}{term}(x, na.rm = FALSE, ...)
+
+\method{range}{term}(x, na.rm = FALSE, ...)
 }
 \arguments{
 \item{x}{An object of class 'term'}

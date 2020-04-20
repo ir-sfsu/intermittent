@@ -34,6 +34,13 @@ max.term <- function(x, na.rm = FALSE, ...) {
   term(out, origin = origin)
 }
 
+#' @rdname mathematics
+#' @export
+range.term <- function(x, na.rm = FALSE, ...) {
+  origin <- term_origin(x)
+  term(c(as.numeric(min(x)), as.numeric(max(x))), origin = origin)
+}
+
 #' @rdname vctrs-compat
 #' @importFrom vctrs vec_arith
 #' @method vec_arith term

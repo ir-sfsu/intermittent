@@ -98,6 +98,7 @@ sims_terms
 min(sims_terms)
 max(sims_terms)
 median(sims_terms) # Retrieve the 'middle' term
+range(sims_terms) # Retrieve the min/max
 ```
 
 Use with packages like `dplyr`.
@@ -109,12 +110,12 @@ library(tibble)
 tibble(term = c(2123, 2127, 2133, 2137)) %>% 
   mutate(
     term = as_term(term, "cs"),
+    second_term = term + 1,
     grad_term = as_term(2163, "cs"),
     terms_to_degree = grad_term - term,
     term_label = label_term(term),
-    second_term = term + 1,
-    year = cal_year(term),
-    academic_year = acad_year(term)
+    academic_year = acad_year(term),
+    year = cal_year(term)
   )
 ```
 
