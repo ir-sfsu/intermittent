@@ -95,6 +95,7 @@ vec_arith.term.term <- function(op, x, y, ...) {
 
 term_minus_term <- function(x, y, terms = getOption("intermittent.use_terms")) {
   origins_check(x, y)
+  origin <- term_origin(x)
   if (length(x) > 1) {
     out <- NULL
     for (i in seq_along(x)) {
@@ -102,7 +103,11 @@ term_minus_term <- function(x, y, terms = getOption("intermittent.use_terms")) {
       out[i] <- length(seq(y[i], x[i], terms))
     }
   } else {
-    out <- length(seq(x, y, terms))
+    xgty <- x > y
+    term_sequence <- switch(xgty,
+           `TRUE` = seq(y, x, terms),
+           `FALSE` = seq(x, y, terms))
+    out <- length(term_sequence)
   }
   out
 }
