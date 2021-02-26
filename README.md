@@ -84,7 +84,7 @@ useful when counting the number of terms to graduation.
 grad_term <- term(20182, "sims") # Spring 2018
 matric_term <- term(20144, "sims") # Fall 2014
 grad_term - matric_term 
-#> [1] 10
+#> [1] 8
 ```
 
 ## Helpers
@@ -107,8 +107,7 @@ Create a sequence of terms with a `seq` method.
 sims_terms <- seq(term(20104), 20162)
 sims_terms
 #> <term[12]>
-#>  [1] 20104 20112 20114 20122 20124 20132 20134 20142 20144 20152 20154
-#> [12] 20162
+#>  [1] 20104 20112 20114 20122 20124 20132 20134 20142 20144 20152 20154 20162
 
 min(sims_terms)
 #> <term[1]>
@@ -141,13 +140,12 @@ tibble(term = c(2123, 2127, 2133, 2137)) %>%
     year = cal_year(term)
   )
 #> # A tibble: 4 x 7
-#>    term second_term grad_term terms_to_degree term_label academic_year
-#>   <ter> <term (cs)> <term (c>           <int> <chr>      <chr>        
-#> 1  2123        2127      2163               9 Spring 20… 2011-12      
-#> 2  2127        2133      2163               8 Fall 2012  2012-13      
-#> 3  2133        2137      2163               7 Spring 20… 2012-13      
-#> 4  2137        2143      2163               6 Fall 2013  2013-14      
-#> # … with 1 more variable: year <dbl>
+#>     term second_term grad_term terms_to_degree term_label  academic_year  year
+#>   <term>      <term>    <term>           <int> <chr>       <chr>         <dbl>
+#> 1   2123        2127      2163               9 Spring 2012 2011-12        2012
+#> 2   2127        2133      2163               8 Fall 2012   2012-13        2012
+#> 3   2133        2137      2163               7 Spring 2013 2012-13        2013
+#> 4   2137        2143      2163               6 Fall 2013   2013-14        2013
 ```
 
 ## Package Options - Include Summer Terms?
