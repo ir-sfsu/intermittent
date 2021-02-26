@@ -94,6 +94,8 @@ vec_arith.term.term <- function(op, x, y, ...) {
 }
 
 term_minus_term <- function(x, y, terms = getOption("intermittent.use_terms")) {
+  if (is.na(x)) return(NA)
+  if (is.na(y)) return(NA)
   origins_check(x, y)
   origin <- term_origin(x)
   if (length(x) > 1) {
