@@ -140,3 +140,33 @@ format_term <- function(x) {
 term_duration <- function(x, y) {
   ifelse(x > y, x - y, y - x)
 }
+
+#' Get the next or last n terms
+#'
+#'
+#' @param x an object of class 'term'
+#' @param n how many terms
+#' @param keep which terms to keep (ending character)
+#'
+#' @return term sequence
+#' @rdname getters
+#' @export
+#'
+#' @examples
+#' x <- term(20164)
+#' get_next(x, 5)
+#' get_next(x, 10, keep = "4")
+#' get_last(x, 5)
+get_next <- function(x, n, keep = NA) {
+  s <- seq(x, x + n)
+  if (!is.na(keep)) return(s[grep(paste0(keep, "$"), s)])
+  s
+}
+
+#' @rdname getters
+#' @export
+get_last <- function(x, n, keep = NA) {
+  s <- seq(x - n, x)
+  if (!is.na(keep)) return(s[grep(paste0(keep, "$"), s)])
+  s
+}
