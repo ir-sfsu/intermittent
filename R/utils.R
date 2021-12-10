@@ -170,3 +170,66 @@ get_last <- function(x, n, keep = NA) {
   if (!is.na(keep)) return(s[grep(paste0(keep, "$"), s)])
   s
 }
+
+#' Get next fall/spring sequences
+#'
+#' @param lhs an object of class 'term'
+#' @param rhs an integer
+#'
+#' @return sequence of terms
+#' @rdname ops
+#' @export
+#'
+#' @examples
+`%+F%` <- function(lhs, rhs) {
+  inc <- op_checks(lhs, rhs)
+  k <- get_suffix(lhs, "fall")
+  get_next(lhs, rhs * inc, keep = k)
+}
+
+#' @rdname ops
+#' @export
+`%-F%` <- function(lhs, rhs) {
+  inc <- op_checks(lhs, rhs)
+  k <- get_suffix(lhs, "fall")
+  get_last(lhs, rhs * inc, keep = k)
+}
+
+#' @rdname ops
+#' @export
+`%+S%` <- function(lhs, rhs) {
+  inc <- op_checks(lhs, rhs)
+  k <- get_suffix(lhs, "spring")
+  get_next(lhs, rhs * inc, keep = k)
+}
+
+#' @rdname ops
+#' @export
+`%-S%` <- function(lhs, rhs) {
+  inc <- op_checks(lhs, rhs)
+  k <- get_suffix(lhs, "spring")
+  get_last(lhs, rhs * inc, keep = k)
+}
+
+op_checks <- function(lhs, rhs) {
+  stopifnot(
+    "lhs must be an object of class 'term'" = is_term(lhs),
+    "rhs must be numeric" = is.numeric(rhs),
+    length(lhs) & length(rhs) == 1
+  )
+  ifelse(getOption("intermittent.use_terms") == "fasp", 2, 3)
+}
+
+get_suffix <- function(x, fasp) {
+  origin <- term_origin(x)
+  if (origin == "sims") {
+    if (fasp == "fall") {
+      return("4")
+    }
+    return("2")
+  }
+  if (fasp == "fall") {
+    return("7")
+  }
+  "3"
+}
