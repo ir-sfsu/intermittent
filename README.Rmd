@@ -37,7 +37,7 @@ knitr::kable(data.frame(
 You can install intermittent from GitHub with:
 
 ``` r
-remotes::install_github("daranzolin/intermittent")
+remotes::install_github("ir-sfsu/intermittent")
 ```
 
 ## The 'term' class
@@ -117,6 +117,27 @@ tibble(term = c(2123, 2127, 2133, 2137)) %>%
     academic_year = acad_year(term),
     year = cal_year(term)
   )
+```
+
+## Other helpers and operators
+
+```{r}
+fall16 <- term(2167, origin = "cs")
+spring20 <- term(2203, origin = "cs")
+label_term(fall16)
+label_term(spring20)
+
+# Get next 5 terms
+label_term(get_next(fall16, 5))
+
+# Get last 5 terms
+label_term(get_last(spring20, 5))
+
+# Get next 5 fall terms
+label_term(fall16 %+F% 5)
+
+# Get last 5 spring terms
+label_term(spring20 %-S% 5)
 ```
 
 ## Package Options - Include Summer Terms?

@@ -27,7 +27,7 @@ create S3 vectors.](https://github.com/r-lib/vctrs)
 You can install intermittent from GitHub with:
 
 ``` r
-remotes::install_github("daranzolin/intermittent")
+remotes::install_github("ir-sfsu/intermittent")
 ```
 
 ## The ‘term’ class
@@ -146,6 +146,36 @@ tibble(term = c(2123, 2127, 2133, 2137)) %>%
 #> 2   2127        2133      2163               8 Fall 2012   2012-13        2012
 #> 3   2133        2137      2163               7 Spring 2013 2012-13        2013
 #> 4   2137        2143      2163               6 Fall 2013   2013-14        2013
+```
+
+## Other helpers and operators
+
+``` r
+fall16 <- term(2167, origin = "cs")
+spring20 <- term(2203, origin = "cs")
+label_term(fall16)
+#> [1] "Fall 2016"
+label_term(spring20)
+#> [1] "Spring 2020"
+
+# Get next 5 terms
+label_term(get_next(fall16, 5))
+#> [1] "Fall 2016"   "Spring 2017" "Fall 2017"   "Spring 2018" "Fall 2018"  
+#> [6] "Spring 2019"
+
+# Get last 5 terms
+label_term(get_last(spring20, 5))
+#> [1] "Fall 2017"   "Spring 2018" "Fall 2018"   "Spring 2019" "Fall 2019"  
+#> [6] "Spring 2020"
+
+# Get next 5 fall terms
+label_term(fall16 %+F% 5)
+#> [1] "Fall 2016" "Fall 2017" "Fall 2018" "Fall 2019" "Fall 2020" "Fall 2021"
+
+# Get last 5 spring terms
+label_term(spring20 %-S% 5)
+#> [1] "Spring 2015" "Spring 2016" "Spring 2017" "Spring 2018" "Spring 2019"
+#> [6] "Spring 2020"
 ```
 
 ## Package Options - Include Summer Terms?
